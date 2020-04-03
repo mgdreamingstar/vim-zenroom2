@@ -47,7 +47,7 @@ function! s:markdown_room()
     hi markdownListMarker guifg=#317849
     hi Cursor guibg=#15abdd
 
-    if has('gui_running')
+    if exists('g:GuiLoaded')
         let l:highlightbgcolor = "guibg=#f2f2f2" 
         let l:highlightfgbgcolor = "guifg=#f2f2f2" . " " . l:highlightbgcolor
     else
@@ -63,7 +63,7 @@ function! s:markdown_room()
 endfunction
 
 function! s:zenroom_goyo_before()
-    if !has("gui_running")
+    if !exists('g:GuiLoaded')
         return
     endif
     let is_mark_or_rst = &filetype == "markdown" || &filetype == "rst" || &filetype == "text"
@@ -74,7 +74,7 @@ function! s:zenroom_goyo_before()
 endfunction
 
 function! s:zenroom_goyo_after()
-    if !has("gui_running")
+    if !exists('g:GuiLoaded')
         return
     endif
     let is_mark_or_rst = &filetype == "markdown" || &filetype == "rst" || &filetype == "text"
