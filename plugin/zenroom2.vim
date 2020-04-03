@@ -62,22 +62,22 @@ function! s:markdown_room()
     exec( "hi StatusLineNC " . l:highlightfgbgcolor )
 endfunction
 
-function! s:zenroom_goyo_before()
+function! zenroom2#Zenroom_goyo_before()
     if !exists('g:GuiLoaded')
         return
     endif
-    let is_mark_or_rst = &filetype == "markdown" || &filetype == "rst" || &filetype == "text"
+    let is_mark_or_rst = &filetype == "markdown" || &filetype == "vimwiki" || &filetype == "rst" || &filetype == "text"
 
     if is_mark_or_rst
         call s:markdown_room()
     endif
 endfunction
 
-function! s:zenroom_goyo_after()
+function! zenroom2#Zenroom_goyo_after()
     if !exists('g:GuiLoaded')
         return
     endif
-    let is_mark_or_rst = &filetype == "markdown" || &filetype == "rst" || &filetype == "text"
+    let is_mark_or_rst = &filetype == "markdown" || &filetype == "vimwiki" || &filetype == "rst" || &filetype == "text"
     if is_mark_or_rst
         set linespace=0
 
@@ -87,4 +87,3 @@ function! s:zenroom_goyo_after()
     endif
 endfunction
 
-let g:goyo_callbacks = [ function('s:zenroom_goyo_before'), function('s:zenroom_goyo_after') ]
