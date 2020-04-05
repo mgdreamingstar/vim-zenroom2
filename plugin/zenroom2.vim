@@ -26,41 +26,32 @@ endif
 
 function! s:markdown_room()
     set background=light
-    set linespace=8
+    set linespace=8 " number of pixel lines inserted between characters.
 
-    hi Normal guibg=gray95
-    hi NonText guifg=gray95
-    hi FoldColumn guibg=gray95
-    hi CursorLine guibg=gray90
-    hi Title gui=bold guifg=gray25
-    hi MarkdownHeadingDelimiter gui=bold guifg=gray25
-    hi htmlSpecialChar guifg=black
-    hi markdownError guifg=black
-    hi markdownBold gui=bold guifg=gray25
-    hi markdownItalic guifg=gray25 gui=underline
-    hi markdownUrl guifg=#2fb3a6
-    hi markdownAutomaticLink guifg=#2fb3a6
-    hi markdownLinkText guifg=#317849
-    hi markdownUrlTitle guifg=#317849
-    hi markdownBlockquote guifg=#317849 gui=bold
-    hi markdownId guifg=#2fb3a6
-    hi markdownIdDeclaration guifg=#317849 gui=bold
-    hi markdownListMarker guifg=#317849
-    hi Cursor guibg=#15abdd
+    let yellow='#F1C40F'
+    let blue='#3498DB'
+    let purple='#9B59B6'
 
-    if exists('g:GuiLoaded')
-        let l:highlightbgcolor = "guibg=#f2f2f2" 
-        let l:highlightfgbgcolor = "guifg=#f2f2f2" . " " . l:highlightbgcolor
-    else
-        let l:highlightbgcolor = "ctermbg=bg" 
-        let l:highlightfgbgcolor = "ctermfg=bg" . " " . l:highlightbgcolor
-    endif
+    syn clear
+    syn match code /```/
+    syn match code /```python/
+    syn region math start="\$" end="\$" oneline
+    syn region bold start=/\*\*/ end=/\*\*/
+    syn region header matchgroup=header_d start=/^#\{1,6}/ end=/$/
 
-    exec( "hi Normal " . l:highlightbgcolor )
-    exec( "hi VertSplit " . l:highlightfgbgcolor )
-    exec( "hi NonText " . l:highlightfgbgcolor )
-    exec( "hi StatusLine " . l:highlightfgbgcolor )
-    exec( "hi StatusLineNC " . l:highlightfgbgcolor )
+    colorscheme pencil
+    "hi htmlH1 gui=bold
+    "hi htmlH3 gui=bold
+    "hi htmlH4 gui=bold
+    "hi mkdSnippetPYTHON guifg=#3498DB
+    "hi texStatement guifg=#3498DB
+    "hi mkdListItem guifg=#F1C40F
+    "hi htmlBold guifg=#9B59B6
+    hi code guibg=yellow
+    hi math guifg=blue
+    hi bold guifg=purple
+    hi header guifg=blue
+
 endfunction
 
 function! zenroom2#Zenroom_goyo_before()
@@ -81,12 +72,13 @@ function! zenroom2#Zenroom_goyo_after()
     let is_mark_or_rst = &filetype == "markdown" || &filetype == "vimwiki" || &filetype == "rst" || &filetype == "text"
     if is_mark_or_rst
         set linespace=0
-
         if s:save_background != ""
             exec( "set background=" . s:save_background )
         endif
     endif
-    exec "colorscheme " . expand(s:colo)
+    silent exec "colorscheme " . expand(s:colo)
+    silent exec "AirlineTheme " . string(expand(s:colo))
+    silent syn on
 endfunction
 
 let g:goyo_callbacks = [ function('zenroom2#Zenroom_goyo_before'), function('zenroom2#Zenroom_goyo_after') ]
