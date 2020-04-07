@@ -13,6 +13,8 @@ if exists( "g:loaded_zenroom2_plugin" )
 endif
 let g:loaded_zenroom2_plugin = 1
 
+" save theme for recovery
+let s:colo = g:colors_name
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Configuration
@@ -86,6 +88,11 @@ function! zenroom2#Zenroom_goyo_after()
             exec( "set background=" . s:save_background )
         endif
     endif
+
+    " recover theme
+    silent exec "colorscheme " . expand(s:colo)
+    silent exec "AirlineTheme " . string(expand(s:colo))
+    silent syn on
 endfunction
 
 let g:goyo_callbacks = [ function('zenroom2#Zenroom_goyo_before'), function('zenroom2#Zenroom_goyo_after') ]
