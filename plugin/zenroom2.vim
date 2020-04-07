@@ -26,6 +26,7 @@ endif
 function! s:markdown_room()
     set background=light
     set linespace=8
+    colo pencil
 
     hi Normal guibg=gray95
     hi NonText guifg=gray95
@@ -47,7 +48,7 @@ function! s:markdown_room()
     hi markdownListMarker guifg=#317849
     hi Cursor guibg=#15abdd
 
-    if has('gui_running')
+    if has('gui_running') && !exists('g:GuiLoaded')
         let l:highlightbgcolor = "guibg=#f2f2f2" 
         let l:highlightfgbgcolor = "guifg=#f2f2f2" . " " . l:highlightbgcolor
     else
@@ -62,22 +63,22 @@ function! s:markdown_room()
     exec( "hi StatusLineNC " . l:highlightfgbgcolor )
 endfunction
 
-function! s:zenroom_goyo_before()
-    if !has("gui_running")
+function! zenroom2#Zenroom_goyo_before()
+    if !has("gui_running") && !exists('g:GuiLoaded')
         return
     endif
-    let is_mark_or_rst = &filetype == "markdown" || &filetype == "rst" || &filetype == "text"
+    let is_mark_or_rst = &filetype == "markdown" || &filetype == "vimwiki" || &filetype == "rst" || &filetype == "text"
 
     if is_mark_or_rst
         call s:markdown_room()
     endif
 endfunction
 
-function! s:zenroom_goyo_after()
-    if !has("gui_running")
+function! zenroom2#Zenroom_goyo_after()
+    if !has("gui_running") && !exists('g:GuiLoaded')
         return
     endif
-    let is_mark_or_rst = &filetype == "markdown" || &filetype == "rst" || &filetype == "text"
+    let is_mark_or_rst = &filetype == "markdown" || &filetype == "vimwiki" || &filetype == "rst" || &filetype == "text"
     if is_mark_or_rst
         set linespace=0
 
@@ -87,4 +88,4 @@ function! s:zenroom_goyo_after()
     endif
 endfunction
 
-let g:goyo_callbacks = [ function('s:zenroom_goyo_before'), function('s:zenroom_goyo_after') ]
+let g:goyo_callbacks = [ function('zenroom2#Zenroom_goyo_before'), function('zenroom2#Zenroom_goyo_after') ]
